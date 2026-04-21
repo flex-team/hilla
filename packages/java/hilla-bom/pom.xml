@@ -13,7 +13,7 @@
     <artifactId>hilla-bom</artifactId>
     <packaging>pom</packaging>
     <name>Hilla Platform (Bill of Materials)</name>
-    <version>25.1-SNAPSHOT</version>
+    <version>25.1.2-flex-patched-1</version>
     <description>Hilla Platform (Bill of Materials)</description>
     <url>https://vaadin.com/hilla</url>
 
@@ -70,22 +70,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.vaadin</groupId>
-                <artifactId>hilla</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>hilla-engine-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>hilla-endpoint</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>hilla-engine-runtime</artifactId>
+                <artifactId>hilla-typescript-generator</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
