@@ -113,9 +113,13 @@ class KotlinNullabilityPlugin : AbstractPlugin<PluginConfiguration>() {
             is EndpointNode -> KEndpointNode(node.source, node.target, (node.source.get() as Class<*>).kotlin)
             is EndpointExposedNode -> KEndpointExposedNode(node.source, (node.source.get() as Class<*>).kotlin)
             is MethodNode -> createKMethodNode(node, parentPath)
-            is MethodParameterNode -> KMethodParameterNode(node.source, node.target,
-                    (parentPath.node as KMethodNode).kFunction.parameters
-                        .first { it.kind == KParameter.Kind.VALUE && it.name == node.source.name })
+            is MethodParameterNode -> {
+                // [flex-patch] firstOrNull to skip synthetic bridge methods not visible in Kotlin reflection (vaadin/hilla#3443, #3470)
+                val kParam = (parentPath.node as KMethodNode).kFunction.parameters
+                    .firstOrNull { it.kind == KParameter.Kind.VALUE && it.name == node.source.name }
+                    ?: return node
+                KMethodParameterNode(node.source, node.target, kParam)
+            }
             is TypedNode -> resolveTypedNode(node, parentPath)
             is EntityNode ->
                 KEntityNode(node.source, node.target as ObjectSchema, (node.source.get() as Class<*>).kotlin)
@@ -221,14 +225,15 @@ class KotlinNullabilityPlugin : AbstractPlugin<PluginConfiguration>() {
         }
     }
 
-    private fun createKMethodNode(node: MethodNode, parentPath: NodePath<*>): KMethodNode =
+    // [flex-patch] return type widened to Node<*,*> to allow returning original node for synthetic methods
+    private fun createKMethodNode(node: MethodNode, parentPath: NodePath<*>): Node<*, *> =
         when (val parentNode = parentPath.node) {
             is KEndpointNode -> {
-                KMethodNode(
-                    node.source,
-                    node.target,
-                    parentNode.kClass.memberFunctions.first { it.name == node.source.name }
-                )
+                // [flex-patch] firstOrNull to skip synthetic access$ methods not in Kotlin reflection (vaadin/hilla#3470)
+                val kFunction = parentNode.kClass.memberFunctions
+                    .firstOrNull { it.name == node.source.name }
+                    ?: return node
+                KMethodNode(node.source, node.target, kFunction)
             }
 
             is KEndpointExposedNode -> {
