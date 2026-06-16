@@ -19,7 +19,7 @@
     "lit": "3.3.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-router": "7.9.3",
+    "react-router": "7.18.0",
     "@vaadin/hilla-frontend": "25.2.0-alpha1",
     "@vaadin/router": "2.0.1",
     "@vaadin/hilla-lit-form": "25.2.0-alpha1"
