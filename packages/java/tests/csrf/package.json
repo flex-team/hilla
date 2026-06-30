@@ -15,7 +15,7 @@
     "lit": "3.3.2"
   },
   "devDependencies": {
-    "@babel/core": "7.29.0",
+    "@babel/core": "7.29.6",
     "@babel/preset-react": "7.28.5",
     "@preact/signals-react-transform": "0.8.1",
     "@rolldown/plugin-babel": "0.2.1",
@@ -57,7 +57,7 @@
       "lit": "3.3.2"
     },
     "devDependencies": {
-      "@babel/core": "7.29.0",
+      "@babel/core": "7.29.6",
       "@babel/preset-react": "7.28.5",
       "@preact/signals-react-transform": "0.8.1",
       "@rolldown/plugin-babel": "0.2.1",
